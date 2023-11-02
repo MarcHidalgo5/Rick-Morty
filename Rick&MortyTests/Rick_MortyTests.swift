@@ -32,5 +32,4 @@ final class Rick_MortyTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-
 }
