@@ -44,7 +44,7 @@ extension CharacterResponse {
                 gender: character.gender,
                 origin: character.origin,
                 location: character.location,
-                image: character.image,
+                imageURL: URL(string: character.image),
                 episodes: character.episode,
                 url: character.url, 
                 created: character.created

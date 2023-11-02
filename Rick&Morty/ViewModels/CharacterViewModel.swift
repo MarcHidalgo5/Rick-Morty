@@ -6,7 +6,7 @@ import Foundation
 import Rick_MortyKit
 
 public class CharacterViewModel: ObservableObject, Identifiable {
-    public init(id: Int, name: String, status: String, species: String, type: String, gender: String, origin: CharacterResponse.Character.Location, location: CharacterResponse.Character.Location, image: String, episodes: [String], url: String, created: String) {
+    public init(id: Int, name: String, status: String, species: String, type: String, gender: String, origin: CharacterResponse.Character.Location, location: CharacterResponse.Character.Location, imageURL: URL?, episodes: [String], url: String, created: String) {
         self.id = id
         self.name = name
         self.status = status
@@ -15,7 +15,7 @@ public class CharacterViewModel: ObservableObject, Identifiable {
         self.gender = gender
         self.origin = origin
         self.location = location
-        self.image = image
+        self.imageURL = imageURL
         self.episodes = episodes
         self.url = url
         self.created = created
@@ -29,14 +29,10 @@ public class CharacterViewModel: ObservableObject, Identifiable {
     public let gender: String
     public let origin: CharacterResponse.Character.Location
     public let location: CharacterResponse.Character.Location
-    public let image: String
+    public let imageURL: URL?
     public let episodes: [String]
     public let url: String
     public let created: String
-    
-    public var imageURL: URL? {
-        return URL(string: image)
-    }
 }
 
 extension CharacterViewModel {
@@ -50,7 +46,7 @@ extension CharacterViewModel {
         gender: "Male",
         origin: .init(name: "Earth", url: ""),
         location: .init(name: "Earth", url: ""),
-        image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+        imageURL: nil,
         episodes: ["https://rickandmortyapi.com/api/episode/1"],
         url: "https://rickandmortyapi.com/api/character/1",
         created: "2017-11-04T18:48:46.250Z"
@@ -65,7 +61,7 @@ extension CharacterViewModel {
         gender: "Male",
         origin: .init(name: "Earth", url: ""),
         location: .init(name: "Earth", url: ""),
-        image: "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
+        imageURL: nil,
         episodes: ["https://rickandmortyapi.com/api/episode/1"],
         url: "https://rickandmortyapi.com/api/character/2",
         created: "2017-11-04T18:50:21.651Z"
@@ -80,7 +76,7 @@ extension CharacterViewModel {
         gender: "Female",
         origin: .init(name: "Earth", url: ""),
         location: .init(name: "Earth", url: ""),
-        image: "https://rickandmortyapi.com/api/character/avatar/3.jpeg",
+        imageURL: nil,
         episodes: ["https://rickandmortyapi.com/api/episode/6"],
         url: "https://rickandmortyapi.com/api/character/3",
         created: "2017-11-04T19:09:56.428Z"
@@ -95,7 +91,7 @@ extension CharacterViewModel {
         gender: "Female",
         origin: .init(name: "Earth", url: ""),
         location: .init(name: "Earth", url: ""),
-        image: "https://rickandmortyapi.com/api/character/avatar/4.jpeg",
+        imageURL: nil,
         episodes: ["https://rickandmortyapi.com/api/episode/6"],
         url: "https://rickandmortyapi.com/api/character/4",
         created: "2017-11-04T19:22:43.665Z"
@@ -110,7 +106,7 @@ extension CharacterViewModel {
         gender: "Male",
         origin: .init(name: "Earth", url: ""),
         location: .init(name: "Earth", url: ""),
-        image: "https://rickandmortyapi.com/api/character/avatar/5.jpeg",
+        imageURL: nil,
         episodes: ["https://rickandmortyapi.com/api/episode/6"],
         url: "https://rickandmortyapi.com/api/character/5",
         created: "2017-11-04T19:26:56.301Z"
@@ -125,7 +121,7 @@ extension CharacterViewModel {
         gender: "Female",
         origin: .init(name: "Abadango", url: ""),
         location: .init(name: "Abadango", url: ""),
-        image: "https://rickandmortyapi.com/api/character/avatar/6.jpeg",
+        imageURL: nil,
         episodes: ["https://rickandmortyapi.com/api/episode/27"],
         url: "https://rickandmortyapi.com/api/character/6",
         created: "2017-11-04T19:50:28.250Z"
