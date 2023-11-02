@@ -35,6 +35,23 @@ public class CharacterViewModel: ObservableObject, Identifiable {
     public let created: String
 }
 
+
+extension String {
+    func formatDate() -> String? {
+        let isoFormatter = ISO8601DateFormatter()
+        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        
+        if let date = isoFormatter.date(from: self) {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .long
+            formatter.timeStyle = .none
+            return formatter.string(from: date)
+        }
+        
+        return nil
+    }
+}
+
 //MARK: Mocks
 extension CharacterViewModel {
     

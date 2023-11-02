@@ -61,6 +61,7 @@ private struct CharacterView: View {
                     )
                     .frame(width: 100, height: 100)
                     .cornerRadius(12)
+                    .shadow(radius: 5)
                     
                     VStack(alignment: .leading, spacing: 15) {
                         Text("**Status:** \(character.status)")
