@@ -5,10 +5,13 @@
 import SwiftUI
 
 @main
-struct Rick_MortyApp: App {
+struct RickAndMortyApp: App {
+    
+    var current = World()
+    
     var body: some Scene {
         WindowGroup {
-            CharacterListView()
+            CharacterListView.Async(apiClient: current.apiClient)
         }
     }
 }
