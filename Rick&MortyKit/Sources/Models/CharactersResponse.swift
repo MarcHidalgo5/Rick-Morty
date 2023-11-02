@@ -30,6 +30,11 @@ public struct CharacterResponse: Codable {
         public let created: String
         
         public struct Location: Codable {
+            public init(name: String, url: String) {
+                self.name = name
+                self.url = url
+            }
+            
             public let name: String
             public let url: String
         }

@@ -9,8 +9,8 @@ enum CharacterAPI: Endpoint {
     
     var path: String {
         switch self {
-        case .fetchCharacter:
-            return "/character/?page=1"
+        case .fetchCharacter(let page):
+            return "/character/?page=\(page)"
         }
     }
     

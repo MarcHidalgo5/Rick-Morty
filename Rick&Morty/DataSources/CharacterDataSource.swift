@@ -35,7 +35,20 @@ extension CharacterDataSource {
 extension CharacterResponse {
     func viewModel() -> [CharacterViewModel] {
         return self.results.map { character in
-            return CharacterViewModel(id: character.id, name: character.name)
+            return CharacterViewModel(
+                id: character.id,
+                name: character.name,
+                status: character.status,
+                species: character.species,
+                type: character.type,
+                gender: character.gender,
+                origin: character.origin,
+                location: character.location,
+                image: character.image,
+                episodes: character.episode,
+                url: character.url, 
+                created: character.created
+            )
         }
     }
 }

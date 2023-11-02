@@ -8,7 +8,9 @@ import Rick_MortyUI
 import BSWInterfaceKit
 
 #Preview {
-    CharacterListView(dataSource: .mock)
+    NavigationView {
+        CharacterListView(dataSource: .mock)
+    }
 }
 
 struct CharacterListView: View, PlaceholderDataProvider {
@@ -24,7 +26,7 @@ struct CharacterListView: View, PlaceholderDataProvider {
         List(dataSource.characters, id: \.id) { character in
             TextView(character: character)
         }
-        .navigationTitle("Rick and Morty")
+        .navigationTitle("Characters")
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)
     }
@@ -52,12 +54,31 @@ private struct TextView: View {
                     .lineLimit(1)
                     .font(.title2)
                     .padding(5)
-                HStack {
-                    Image(systemName: "pencil")
-                        .frame(width: 100, height: 100)
-                        .border(Color.red)
-                    Text("Description kuhvbiluojiñ libhueojñrpwfkoe obibhujñerwfked iouhiejñrfowkd oiuhpijñegrfe iouhpijegrf oiuhpjiegkrf")
-                        .font(.subheadline)
+                HStack(spacing: 15) {
+                    PhotoView(
+                        photo: .init(url: character.imageURL, averageColor: .clear),
+                        configuration: .init(placeholder: .init(shape: .rectangle, color: .red.opacity(0.5)))
+                    )
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(12)
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Status: \(character.status)")
+                            .font(.subheadline)
+                        Text("Specie: \(character.species)")
+                            .font(.subheadline)
+                        Text("Gender: \(character.gender)")
+                            .font(.subheadline)
+                    }
+                    .padding(2)
+                    VStack {
+                        Text("Episodes")
+                            .padding(.bottom, 5)
+                            .font(.headline)
+                        Text("\(character.episodes.count)")
+                            .font(.headline)
+                    }
+                    .padding([.top, .bottom, .leading], 2)
+                    .padding(.trailing, 10)
                 }
             }
         }
