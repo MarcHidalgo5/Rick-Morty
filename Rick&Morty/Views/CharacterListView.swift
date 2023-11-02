@@ -23,12 +23,24 @@ struct CharacterListView: View, PlaceholderDataProvider {
     private var dataSource: CharacterDataSource
     
     var body: some View {
-        List(dataSource.characters, id: \.id) { character in
-            TextView(character: character)
+        List(dataSource.items, id: \.id) { character in
+            CharacterView(for: character)
+                .onAppear() {
+                    dataSource.loadMoreContentIfNeeded(currentItem: character)
+                }
+            loadingView
         }
         .navigationTitle("Characters")
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)
+    }
+    
+    @ViewBuilder
+    private var loadingView: some View {
+        if dataSource.state == .loading {
+            ProgressView()
+                .frame(height: 50)
+        }
     }
     
     @MainActor 
@@ -37,9 +49,9 @@ struct CharacterListView: View, PlaceholderDataProvider {
     }
 }
 
-private struct TextView: View {
+private struct CharacterView: View {
     
-    public init(character: CharacterViewModel) {
+    public init(for character: CharacterViewModel) {
         self.character = character
     }
     
@@ -47,8 +59,8 @@ private struct TextView: View {
     
     var body: some View {
         NavigationLink {
-            Text("Test")
-        } label: {
+            DetailCharacterView(for: character)
+            } label: {
             VStack(alignment: .center, spacing: 15) {
                 Text(character.name)
                     .lineLimit(1)
@@ -61,6 +73,7 @@ private struct TextView: View {
                     )
                     .frame(width: 100, height: 100)
                     .cornerRadius(12)
+                    .shadow(radius: 5)
                     
                     VStack(alignment: .leading, spacing: 15) {
                         Text("**Status:** \(character.status)")

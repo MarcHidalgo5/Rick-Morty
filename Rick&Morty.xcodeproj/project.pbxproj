@@ -19,6 +19,7 @@
 		1A74F7662AF41981009D24A2 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A74F7652AF41981009D24A2 /* World.swift */; };
 		1A74F76C2AF41D27009D24A2 /* CharacterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A74F76B2AF41D27009D24A2 /* CharacterDataSource.swift */; };
 		1A74F76F2AF41F33009D24A2 /* CharacterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A74F76E2AF41F33009D24A2 /* CharacterViewModel.swift */; };
+		1A74F7712AF44711009D24A2 /* DetailCharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A74F7702AF44711009D24A2 /* DetailCharacterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		1A74F7652AF41981009D24A2 /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		1A74F76B2AF41D27009D24A2 /* CharacterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDataSource.swift; sourceTree = "<group>"; };
 		1A74F76E2AF41F33009D24A2 /* CharacterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterViewModel.swift; sourceTree = "<group>"; };
+		1A74F7702AF44711009D24A2 /* DetailCharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCharacterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				1A74F7322AF3F6AE009D24A2 /* CharacterListView.swift */,
+				1A74F7702AF44711009D24A2 /* DetailCharacterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				1A74F7332AF3F6AE009D24A2 /* CharacterListView.swift in Sources */,
 				1A74F7312AF3F6AE009D24A2 /* RickAndMortyApp.swift in Sources */,
 				1A74F76F2AF41F33009D24A2 /* CharacterViewModel.swift in Sources */,
+				1A74F7712AF44711009D24A2 /* DetailCharacterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
