@@ -23,12 +23,24 @@ struct CharacterListView: View, PlaceholderDataProvider {
     private var dataSource: CharacterDataSource
     
     var body: some View {
-        List(dataSource.characters, id: \.id) { character in
+        List(dataSource.items, id: \.id) { character in
             CharacterView(for: character)
+                .onAppear() {
+                    dataSource.loadMoreContentIfNeeded(currentItem: character)
+                }
+            loadingView
         }
         .navigationTitle("Characters")
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)
+    }
+    
+    @ViewBuilder
+    private var loadingView: some View {
+        if dataSource.state == .loading {
+            ProgressView()
+                .frame(height: 50)
+        }
     }
     
     @MainActor 
