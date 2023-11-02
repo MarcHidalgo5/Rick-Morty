@@ -24,7 +24,7 @@ struct CharacterListView: View, PlaceholderDataProvider {
     
     var body: some View {
         List(dataSource.characters, id: \.id) { character in
-            TextView(character: character)
+            CharacterView(for: character)
         }
         .navigationTitle("Characters")
         .navigationBarTitleDisplayMode(.inline)
@@ -37,9 +37,9 @@ struct CharacterListView: View, PlaceholderDataProvider {
     }
 }
 
-private struct TextView: View {
+private struct CharacterView: View {
     
-    public init(character: CharacterViewModel) {
+    public init(for character: CharacterViewModel) {
         self.character = character
     }
     
@@ -47,8 +47,8 @@ private struct TextView: View {
     
     var body: some View {
         NavigationLink {
-            Text("Test")
-        } label: {
+            DetailCharacterView(for: character)
+            } label: {
             VStack(alignment: .center, spacing: 15) {
                 Text(character.name)
                     .lineLimit(1)

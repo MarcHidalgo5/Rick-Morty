@@ -35,6 +35,7 @@ public class CharacterViewModel: ObservableObject, Identifiable {
     public let created: String
 }
 
+//MARK: Mocks
 extension CharacterViewModel {
     
     static let mockCharacter1 = CharacterViewModel(

@@ -26,6 +26,8 @@ public class CharacterDataSource: ObservableObject {
     public var characters: [CharacterViewModel]
 }
 
+//MARK: Mock
+
 extension CharacterDataSource {
     static var mock: CharacterDataSource {
         CharacterDataSource(characters: [.mockCharacter1, .mockCharacter2, .mockCharacter3, .mockCharacter4, .mockCharacter5, .mockCharacter6])
