@@ -112,12 +112,12 @@
 		1A74F72F2AF3F6AE009D24A2 /* Rick&Morty */ = {
 			isa = PBXGroup;
 			children = (
+				1A74F7302AF3F6AE009D24A2 /* RickAndMortyApp.swift */,
+				1A74F7652AF41981009D24A2 /* World.swift */,
+				1A74F75F2AF3F8A3009D24A2 /* Rick-Morty-Info.plist */,
+				1A74F7342AF3F6AF009D24A2 /* Assets.xcassets */,
 				1A74F76D2AF41F1F009D24A2 /* ViewModels */,
 				1A74F76A2AF41D1A009D24A2 /* DataSources */,
-				1A74F7652AF41981009D24A2 /* World.swift */,
-				1A74F7302AF3F6AE009D24A2 /* RickAndMortyApp.swift */,
-				1A74F7342AF3F6AF009D24A2 /* Assets.xcassets */,
-				1A74F75F2AF3F8A3009D24A2 /* Rick-Morty-Info.plist */,
 				1A74F7362AF3F6AF009D24A2 /* Preview Content */,
 				1A74F7672AF4199A009D24A2 /* Views */,
 			);
