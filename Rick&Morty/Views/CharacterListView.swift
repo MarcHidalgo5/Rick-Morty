@@ -124,13 +124,12 @@ extension CharacterListView {
         }
         
         public var body: some View {
-            NavigationView {
-                AsyncView.rickAndMortyView(
-                    id: "professional-list") {
-                        try await CharacterDataSource(apiClient: apiClient)
-                    } hostedViewGenerator: {
-                        CharacterListView(dataSource: $0)
-                    }
+            AsyncView(id: "character-list") {
+                try await CharacterDataSource(apiClient: apiClient)
+            } hostedViewGenerator: {
+                CharacterListView(dataSource: $0)
+            } errorViewGenerator: {
+                RickAndMortyErrorView(error: $0, onRetry: $1)
             }
         }
     }

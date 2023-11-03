@@ -15,7 +15,7 @@ struct RickAndMortyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            CharacterListView.Async(apiClient: current.apiClient)
+            StartView(apiClient: current.apiClient)
         }
     }
     
@@ -25,10 +25,8 @@ struct RickAndMortyApp: App {
         //MARK: UINavigationBar
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
         UINavigationBar.appearance().standardAppearance = navBarAppearance
-        UIBarButtonItem.appearance().tintColor = .black
+        UIBarButtonItem.appearance().tintColor = UIColor(light: .darkText, dark: .white)
     }
 }
 

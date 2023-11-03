@@ -13,4 +13,8 @@ public class MockRickAndMortyAPIClient: RickAndMortyAPIClient {
     public override func fetchCharacters(page: Int) async throws -> CharacterResponse {
         .mock
     }
+    
+    public override func searchCharacters(page: Int, text: String) async throws -> CharacterResponse {
+        .mock
+    }
 }

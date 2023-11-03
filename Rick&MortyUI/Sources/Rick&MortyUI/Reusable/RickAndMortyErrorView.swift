@@ -35,7 +35,7 @@ public struct RickAndMortyErrorView: View {
                 self.onRetry()
             }, label: {
                 Label {
-                    Text("Reintentar")
+                    Text("Retry")
                         .font(.title3)
                 } icon: {
                     Image(systemName: "arrow.counterclockwise")
