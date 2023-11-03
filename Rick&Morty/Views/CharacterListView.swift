@@ -22,17 +22,35 @@ struct CharacterListView: View, PlaceholderDataProvider {
     @StateObject
     private var dataSource: CharacterDataSource
     
+    @State private var searchText = ""
+    
     var body: some View {
-        List(dataSource.items, id: \.id) { character in
-            CharacterView(for: character)
-                .onAppear() {
-                    dataSource.loadMoreContentIfNeeded(currentItem: character)
+        ZStack {
+            if dataSource.items.isEmpty {
+                ProgressView()
+                    .frame(height: 50)
+            }
+            List(dataSource.items, id: \.id) { character in
+                CharacterView(for: character)
+                    .onAppear() {
+                        dataSource.loadMoreContentIfNeeded(currentItem: character)
+                    }
+            }
+            .searchable(text: $searchText, prompt: "Search name")
+            .onChange(of: searchText) { text in
+                Task { @MainActor in
+                    if text.isEmpty {
+                        try await dataSource.resetAndFetchItems()
+                    } else {
+                        try await dataSource.resetAndSearchItems(text: searchText)
+                    }
                 }
-            loadingView
+            }
+            .navigationTitle("Characters")
+            .navigationBarTitleDisplayMode(.inline)
+            .listStyle(.plain)
         }
-        .navigationTitle("Characters")
-        .navigationBarTitleDisplayMode(.inline)
-        .listStyle(.plain)
+        
     }
     
     @ViewBuilder
