@@ -5,7 +5,7 @@
 import Foundation
 import Rick_MortyKit
 
-public class CharacterViewModel: ObservableObject, Identifiable {
+class CharacterViewModel: ObservableObject, Identifiable {
     public init(id: Int, name: String, status: String, species: String, type: String, gender: String, origin: CharacterResponse.Character.Location, location: CharacterResponse.Character.Location, imageURL: URL?, episodes: [String], url: String, created: String) {
         self.id = id
         self.name = name
@@ -21,35 +21,18 @@ public class CharacterViewModel: ObservableObject, Identifiable {
         self.created = created
     }
     
-    public let id: Int
-    public let name: String
-    public let status: String
-    public let species: String
-    public let type: String
-    public let gender: String
-    public let origin: CharacterResponse.Character.Location
-    public let location: CharacterResponse.Character.Location
-    public let imageURL: URL?
-    public let episodes: [String]
-    public let url: String
-    public let created: String
-}
-
-
-extension String {
-    func formatDate() -> String? {
-        let isoFormatter = ISO8601DateFormatter()
-        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        
-        if let date = isoFormatter.date(from: self) {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .long
-            formatter.timeStyle = .none
-            return formatter.string(from: date)
-        }
-        
-        return nil
-    }
+    let id: Int
+    let name: String
+    let status: String
+    let species: String
+    let type: String
+    let gender: String
+    let origin: CharacterResponse.Character.Location
+    let location: CharacterResponse.Character.Location
+    let imageURL: URL?
+    let episodes: [String]
+    let url: String
+    let created: String
 }
 
 //MARK: Mocks

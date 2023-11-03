@@ -7,10 +7,10 @@ import Rick_MortyKit
 import BSWInterfaceKit
 
 @MainActor
-public class CharacterDataSource: InfiniteScrollingDataSource<CharacterViewModel> {
+class CharacterDataSource: InfiniteScrollingDataSource<CharacterViewModel> {
     
     //MARK: Init for the rest of the APP
-    public init(apiClient: RickAndMortyAPIClient) async throws {
+    init(apiClient: RickAndMortyAPIClient) async throws {
         self.apiClient = apiClient
         self.pagingHandler = PagingHandler(apiClient: apiClient)
         try await super.init(currentPage: 1) { [unowned pagingHandler] in
@@ -18,7 +18,7 @@ public class CharacterDataSource: InfiniteScrollingDataSource<CharacterViewModel
         }
     }
     
-    //MARK: Init for Previews and Testing
+    //MARK: Init for Previews
     private init(characters: [CharacterViewModel]) {
         self.apiClient = MockRickAndMortyAPIClient()
         self.pagingHandler = PagingHandler(apiClient: MockRickAndMortyAPIClient())
@@ -28,15 +28,31 @@ public class CharacterDataSource: InfiniteScrollingDataSource<CharacterViewModel
     private var pagingHandler: PagingHandler
     private let apiClient: RickAndMortyAPIClient
     
-    public func resetAndSearchItems(text: String) async throws {
+    func resetAndSearchItems(text: String) async throws {
+        do {
+            try await resetItemFecher(currentPage: 1) { [unowned pagingHandler] in
+                try await pagingHandler.searchPage(pageNumber: $0, text: text)
+            }
+        } catch {
+            throw CharacterDataSourceError.errorSearching
+        }
+        
+    }
+    
+    func resetAndFetchItems() async throws {
         try await resetItemFecher(currentPage: 1) { [unowned pagingHandler] in
-            try await pagingHandler.searchPage(pageNumber: $0, text: text)
+            try await pagingHandler.page(pageNumber: $0)
         }
     }
     
-    public func resetAndFetchItems() async throws {
-        try await resetItemFecher(currentPage: 1) { [unowned pagingHandler] in
-            try await pagingHandler.page(pageNumber: $0)
+    enum CharacterDataSourceError: LocalizedError {
+        case errorSearching
+        
+        var errorDescription: String? {
+            switch self {
+            case .errorSearching:
+                return "No search results"
+            }
         }
     }
 }

@@ -22,7 +22,11 @@ struct CharacterListView: View, PlaceholderDataProvider {
     @StateObject
     private var dataSource: CharacterDataSource
     
-    @State private var searchText = ""
+    @State 
+    private var searchText = ""
+    
+    @State
+    private var characterViewError: Error? = nil
     
     var body: some View {
         ZStack {
@@ -39,13 +43,19 @@ struct CharacterListView: View, PlaceholderDataProvider {
             .searchable(text: $searchText, prompt: "Search name")
             .onChange(of: searchText) { text in
                 Task { @MainActor in
-                    if text.isEmpty {
-                        try await dataSource.resetAndFetchItems()
-                    } else {
-                        try await dataSource.resetAndSearchItems(text: searchText)
+                    do {
+                        if text.isEmpty {
+                            try await dataSource.resetAndFetchItems()
+                        } else {
+                            try await dataSource.resetAndSearchItems(text: searchText)
+                        }
+                    } catch {
+                        characterViewError = error
                     }
+                    
                 }
             }
+            .errorAlert(error: $characterViewError)
             .navigationTitle("Characters")
             .navigationBarTitleDisplayMode(.inline)
             .listStyle(.plain)
@@ -114,7 +124,7 @@ private struct CharacterView: View {
     }
 }
 
-
+//MARK: Async
 extension CharacterListView {
     struct Async: View {
         private let apiClient: RickAndMortyAPIClient

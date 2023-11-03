@@ -4,6 +4,9 @@
 
 import UIKit
 
+/// This extension provides a method swizzling implementation for UIViewController.
+/// It swizzles the `viewDidLoad` method to customize the back button display mode.
+
 public extension UIViewController {
     
     static func swizzleBackButton() {

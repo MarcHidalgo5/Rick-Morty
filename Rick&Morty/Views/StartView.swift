@@ -23,6 +23,7 @@ struct StartView: View {
                 Image(.logo)
                     .resizable()
                     .scaledToFit()
+                
                 NavigationLink {
                     CharacterListView.Async(apiClient: apiClient)
                 } label: {
@@ -33,7 +34,6 @@ struct StartView: View {
                 .padding()
                 .buttonStyle(.plain)
                 .background(Color.blue.opacity(0.8))
-                
                 .cornerRadius(12)
             }
         }
