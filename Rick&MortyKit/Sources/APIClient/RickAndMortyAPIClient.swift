@@ -15,4 +15,9 @@ public class RickAndMortyAPIClient: APIClient {
         let request = Request<CharacterResponse>(endpoint: CharacterAPI.fetchCharacter(page: page))
         return try await perform(request)
     }
+    
+    public func searchCharacters(page: Int, text: String) async throws -> CharacterResponse {
+        let request = Request<CharacterResponse>(endpoint: CharacterAPI.searchCharacter(page: page, text: text))
+        return try await perform(request)
+    }
 }

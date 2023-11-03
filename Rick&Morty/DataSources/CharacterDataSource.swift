@@ -7,19 +7,18 @@ import Rick_MortyKit
 import BSWInterfaceKit
 
 @MainActor
-public class CharacterDataSource: InfiniteScrollingDataSource<CharacterViewModel> {
+class CharacterDataSource: InfiniteScrollingDataSource<CharacterViewModel> {
     
     //MARK: Init for the rest of the APP
-    public init(apiClient: RickAndMortyAPIClient) async throws {
+    init(apiClient: RickAndMortyAPIClient) async throws {
         self.apiClient = apiClient
-//        characters = try await apiClient.fetchCharacters(page: 1).viewModel()
         self.pagingHandler = PagingHandler(apiClient: apiClient)
         try await super.init(currentPage: 1) { [unowned pagingHandler] in
             try await pagingHandler.page(pageNumber: $0)
         }
     }
     
-    //MARK: Init for Previews and Testing
+    //MARK: Init for Previews
     private init(characters: [CharacterViewModel]) {
         self.apiClient = MockRickAndMortyAPIClient()
         self.pagingHandler = PagingHandler(apiClient: MockRickAndMortyAPIClient())
@@ -28,6 +27,34 @@ public class CharacterDataSource: InfiniteScrollingDataSource<CharacterViewModel
     
     private var pagingHandler: PagingHandler
     private let apiClient: RickAndMortyAPIClient
+    
+    func resetAndSearchItems(text: String) async throws {
+        do {
+            try await resetItemFecher(currentPage: 1) { [unowned pagingHandler] in
+                try await pagingHandler.searchPage(pageNumber: $0, text: text)
+            }
+        } catch {
+            throw CharacterDataSourceError.errorSearching
+        }
+        
+    }
+    
+    func resetAndFetchItems() async throws {
+        try await resetItemFecher(currentPage: 1) { [unowned pagingHandler] in
+            try await pagingHandler.page(pageNumber: $0)
+        }
+    }
+    
+    enum CharacterDataSourceError: LocalizedError {
+        case errorSearching
+        
+        var errorDescription: String? {
+            switch self {
+            case .errorSearching:
+                return "No search results"
+            }
+        }
+    }
 }
 
 //MARK: PagingHandler
@@ -38,7 +65,6 @@ private extension CharacterDataSource {
     class PagingHandler {
         
         private let apiClient: RickAndMortyAPIClient
-
         
         init(apiClient: RickAndMortyAPIClient) {
             self.apiClient = apiClient
@@ -46,6 +72,12 @@ private extension CharacterDataSource {
         
         func page(pageNumber: Int) async throws -> ([CharacterViewModel], Bool) {
             let items = try await apiClient.fetchCharacters(page: pageNumber)
+            let moreMessagesAvailable = pageNumber <= items.info.pages
+            return (items.viewModel(), moreMessagesAvailable)
+        }
+        
+        func searchPage(pageNumber: Int, text: String) async throws -> ([CharacterViewModel], Bool) {
+            let items = try await apiClient.searchCharacters(page: pageNumber, text: text)
             let moreMessagesAvailable = pageNumber <= items.info.pages
             return (items.viewModel(), moreMessagesAvailable)
         }
@@ -62,7 +94,7 @@ extension CharacterDataSource {
 
 extension CharacterResponse {
     func viewModel() -> [CharacterViewModel] {
-        return self.results.map { character in
+        return self.results.compactMap { character in
             return CharacterViewModel(
                 id: character.id,
                 name: character.name,

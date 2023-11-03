@@ -22,17 +22,45 @@ struct CharacterListView: View, PlaceholderDataProvider {
     @StateObject
     private var dataSource: CharacterDataSource
     
+    @State 
+    private var searchText = ""
+    
+    @State
+    private var characterViewError: Error? = nil
+    
     var body: some View {
-        List(dataSource.items, id: \.id) { character in
-            CharacterView(for: character)
-                .onAppear() {
-                    dataSource.loadMoreContentIfNeeded(currentItem: character)
+        ZStack {
+            if dataSource.items.isEmpty {
+                ProgressView()
+                    .frame(height: 50)
+            }
+            List(dataSource.items, id: \.id) { character in
+                CharacterView(for: character)
+                    .onAppear() {
+                        dataSource.loadMoreContentIfNeeded(currentItem: character)
+                    }
+            }
+            .searchable(text: $searchText, prompt: "Search name")
+            .onChange(of: searchText) { text in
+                Task { @MainActor in
+                    do {
+                        if text.isEmpty {
+                            try await dataSource.resetAndFetchItems()
+                        } else {
+                            try await dataSource.resetAndSearchItems(text: searchText)
+                        }
+                    } catch {
+                        characterViewError = error
+                    }
+                    
                 }
-            loadingView
+            }
+            .errorAlert(error: $characterViewError)
+            .navigationTitle("Characters")
+            .navigationBarTitleDisplayMode(.inline)
+            .listStyle(.plain)
         }
-        .navigationTitle("Characters")
-        .navigationBarTitleDisplayMode(.inline)
-        .listStyle(.plain)
+        
     }
     
     @ViewBuilder
@@ -96,7 +124,7 @@ private struct CharacterView: View {
     }
 }
 
-
+//MARK: Async
 extension CharacterListView {
     struct Async: View {
         private let apiClient: RickAndMortyAPIClient
@@ -106,13 +134,12 @@ extension CharacterListView {
         }
         
         public var body: some View {
-            NavigationView {
-                AsyncView.rickAndMortyView(
-                    id: "professional-list") {
-                        try await CharacterDataSource(apiClient: apiClient)
-                    } hostedViewGenerator: {
-                        CharacterListView(dataSource: $0)
-                    }
+            AsyncView(id: "character-list") {
+                try await CharacterDataSource(apiClient: apiClient)
+            } hostedViewGenerator: {
+                CharacterListView(dataSource: $0)
+            } errorViewGenerator: {
+                RickAndMortyErrorView(error: $0, onRetry: $1)
             }
         }
     }

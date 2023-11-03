@@ -44,7 +44,7 @@ struct DetailCharacterView: View {
                 }
                 .padding(.horizontal)
 
-                Text("Appears in episodes: \(character.episodes.count)")
+                Text("Episode appearances: \(character.episodes.count)")
                     .font(.headline)
                     .padding(.top, 5)
 
